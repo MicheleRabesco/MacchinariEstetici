@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2021-12-06T15:54:28.537Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" etag="FKmdBWSfvQL8n0RhMy3Z" version="15.9.1" type="github">
+<mxfile host="app.diagrams.net" modified="2021-12-06T15:56:19.041Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" etag="BXoqw10vqRsKU9racirZ" version="15.9.1" type="github">
   <diagram id="dsJ7s2vMgQMwFVYu8buw" name="Page-1">
-    <mxGraphModel dx="769" dy="362" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="371" dy="175" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -313,7 +313,7 @@
         <mxCell id="uWJtjKGiHwzr4gWqTYHl-46" value="AlboProfessionale" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;" parent="1" vertex="1">
           <mxGeometry x="733.7755555555555" y="125" width="60" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="uWJtjKGiHwzr4gWqTYHl-48" value="Specializzazione" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;" parent="1" vertex="1">
+        <mxCell id="uWJtjKGiHwzr4gWqTYHl-48" value="TipoContratto" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;" parent="1" vertex="1">
           <mxGeometry x="626.25" y="232.5" width="54.25" height="20" as="geometry" />
         </mxCell>
         <mxCell id="uWJtjKGiHwzr4gWqTYHl-61" value="Nome" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;" parent="1" vertex="1">
@@ -331,7 +331,7 @@
         <mxCell id="uWJtjKGiHwzr4gWqTYHl-65" value="E-mail" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;" parent="1" vertex="1">
           <mxGeometry x="380.5" y="240" width="40" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="uWJtjKGiHwzr4gWqTYHl-67" value="TipoContratto" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;" parent="1" vertex="1">
+        <mxCell id="uWJtjKGiHwzr4gWqTYHl-67" value="Specializzazione" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;" parent="1" vertex="1">
           <mxGeometry x="810" y="125" width="60" height="30" as="geometry" />
         </mxCell>
         <mxCell id="uWJtjKGiHwzr4gWqTYHl-68" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=1;exitDx=0;exitDy=0;fontSize=9;endArrow=oval;endFill=0;" parent="1" source="FtTrVJw0tq06EMOVsZJ_-156" target="FtTrVJw0tq06EMOVsZJ_-156" edge="1">
@@ -681,7 +681,7 @@
           <mxGeometry x="743" y="150" width="60" height="30" as="geometry" />
         </mxCell>
         <mxCell id="C01RRlH5eo6Ali7Qf63X-41" value="&lt;font style=&quot;font-size: 9px&quot; color=&quot;#999999&quot;&gt;(0,1)&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#000000;" vertex="1" parent="1">
-          <mxGeometry x="632.88" y="202.5" width="60" height="30" as="geometry" />
+          <mxGeometry x="780" y="155" width="60" height="30" as="geometry" />
         </mxCell>
         <mxCell id="C01RRlH5eo6Ali7Qf63X-47" value="&lt;font style=&quot;font-size: 9px&quot; color=&quot;#999999&quot;&gt;(0,1)&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#000000;" vertex="1" parent="1">
           <mxGeometry x="750" y="310" width="60" height="30" as="geometry" />
