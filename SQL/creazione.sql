@@ -108,6 +108,7 @@ CREATE TABLE `coinvolgimento` (
   PRIMARY KEY (`matricola_dip_coinv`,`num_intervento`,`seriale_macc_coinv`),
   KEY `num_intervento_idx` (`num_intervento`),
   KEY `seriale_macc_coinv_idx` (`seriale_macc_coinv`),
+  KEY `matricola_dip_coinv_idx` (`matricola_dip_coinv`),
   CONSTRAINT `matricola_dip_coinv` FOREIGN KEY (`matricola_dip_coinv`) REFERENCES `dipendente` (`matricola`),
   CONSTRAINT `num_intervento` FOREIGN KEY (`num_intervento`) REFERENCES `intervento` (`#progressivo`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `seriale_macc_coinv` FOREIGN KEY (`seriale_macc_coinv`) REFERENCES `macchinario` (`seriale`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -281,4 +282,4 @@ CREATE TABLE `schedadipendente` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-10 13:53:57
+-- Dump completed on 2021-12-10 16:01:04
