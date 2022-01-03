@@ -38,7 +38,7 @@ public class App {
 				}
 				
 				break;
-				
+			//Query #1
 			case 1:
 				try {
 					System.out.println("Inserire nome cliente: ");
@@ -60,7 +60,7 @@ public class App {
 					int numAcquisti = in.nextInt();
 					
 					Statement query1 = con.createStatement();
-					query1.executeQuery("INSERT INTO cliente(nome,cognome,cf,numAcquisti,telefono,email) VALUES('"+nome+"','"+cognome+"','"+cf+"','"+numAcquisti+"','"+tel+"','"+email+"')");
+					query1.execute("INSERT INTO cliente(nome,cognome,cf,numAcquisti,telefono,email) VALUES('"+nome+"','"+cognome+"','"+cf+"','"+numAcquisti+"','"+tel+"','"+email+"')");
 					
 					System.out.println("Query #1 eseguita con successo");
 				} catch (Exception e) {
@@ -68,7 +68,18 @@ public class App {
 				}
 				
 				break;
-
+				
+			//Query #2
+			case 2:
+				try {
+					
+					System.out.println("Query #2 eseguita con successo");
+				} catch (Exception e) {
+					System.out.println("Errore nell'interrogazione della Query #2!");
+				}
+				
+				break;
+				
 			default:
 				break;
 			}
