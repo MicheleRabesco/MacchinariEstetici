@@ -3,7 +3,7 @@ package macchinariestetici;
 public class App {
 
 	public App() {
-		//carlo santonicola ssss
+		//carlo santonicola-a-a
 	}
 
 	public static void main(String[] args) {
