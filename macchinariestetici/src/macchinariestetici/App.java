@@ -3,7 +3,7 @@ package macchinariestetici;
 public class App {
 
 	public App() {
-		// TODO Auto-generated constructor stub
+		//carlo santonicola
 	}
 
 	public static void main(String[] args) {
