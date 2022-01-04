@@ -2,18 +2,11 @@
 <module type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-<<<<<<< HEAD
-    <content url="file://$MODULE_DIR$" />
-    <orderEntry type="inheritedJdk" />
-    <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="mysql.connector.java" level="project" />
-=======
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/macchinariestetici/src" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="mysql-connector-java-8.0.27" level="project" />
->>>>>>> branch 'master' of https://github.com/astzor16/progettoDB.git
   </component>
 </module>
