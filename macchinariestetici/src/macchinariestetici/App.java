@@ -21,7 +21,7 @@ public class App {
 			
 			Scanner in = new Scanner(System.in);
 			
-			int querySelector = 0;
+			int querySelector = 1;
 			
 			switch (querySelector) {
 			case 0:
