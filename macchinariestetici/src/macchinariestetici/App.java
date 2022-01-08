@@ -21,7 +21,7 @@ public class App {
 			
 			Scanner in = new Scanner(System.in);
 			
-			int querySelector = 4;
+			int querySelector = 6;
 			
 			switch (querySelector) {
 			case 0:
@@ -213,14 +213,82 @@ public class App {
 				}
 				
 				break;
+			
+			//Query #5 : Avvio di un intervento di manutenzione di un macchinario;
+			case 5:
+				try {
+					
+					  System.out.println("Inserire numero seriale del macchinario acquistato: ");
+					  int serialNum = in.nextInt();
+					  
+					  in.nextLine();
+					  
+					  System.out.println("Inserire stato dell'intervento (Richiesto/Valutato/In lavorazione/Verificato/Completato)"
+					  ); String stato = in.nextLine();
+					  
+					  System.out.println("Inserire data dell'inizio dell'intervento (YYYY-MM-DD)");
+					  String data = in.nextLine();
+					 
+					
+					Statement query = con.createStatement();
+					
+					query.execute("INSERT INTO intervento (seriale_macchinario, sostituzione, stato, dataArrivo) "
+									+ "VALUES ((SELECT seriale "
+									+ "FROM macchinario LEFT JOIN affido ON affido.seriale_macch_corr = macchinario.seriale "
+									+ "WHERE macchinario.cf_cliente IS NOT NULL AND affido.cf_corr = 'non affidato' AND macchinario.seriale = '"+serialNum+"'), "
+									+ "'0', '"+stato+"', '"+data+"')");
+					
+					System.out.println("Query #5 eseguita con successo");
+					
+					ResultSet result = query.executeQuery("SELECT intervento.progressivo, intervento.seriale_macchinario, intervento.stato, intervento.dataArrivo "
+															+ "FROM intervento JOIN (SELECT MAX(progressivo) AS numProgressivo, "
+																						+ "seriale_macchinario FROM intervento WHERE seriale_macchinario = '"+serialNum+"') AS intervento2 "
+															+ "ON intervento.seriale_macchinario = intervento2.seriale_macchinario "
+															+ "AND intervento.progressivo = intervento2.numProgressivo");
+						while(result.next()) {
+							int progressivo = result.getInt("progressivo");
+							String seriale_macchinario = result.getString("seriale_macchinario");
+							String stato_intervento = result.getString("stato");
+							String dataArrivo = result.getString("dataArrivo");
+							
+							System.out.println("\nNumero Progressivo: "+progressivo+"\nN.Seriale macchinario: "+seriale_macchinario+"\nStato corrente dell'intervento: "+stato_intervento+"\nData presa in carico: "+dataArrivo+"\n\n");
+						}
+					
+				} catch (Exception e) {
+					System.out.println("Errore nell'interrogazione della Query #5!");
+				}
+				
+				break;	
+				
+			//Query #6 : Verifica della possibilità di assegnare un operario ad un intervento di manutenzione
+			case 6:
+				try {
+					System.out.println("Inserire matricola del dipendende di cui si vuole verificare la disponibilità: ");
+					String matricola = in.nextLine();
+					
+					Statement query = con.createStatement();
+					
+					
+					ResultSet result = query.executeQuery("SELECT matricola FROM dipendente "
+															+ "WHERE matricola IN (SELECT matricola_dip_coinv FROM coinvolgimento WHERE (matricola_dip_coinv = '"+matricola+"' "
+																	+ "AND dataFine IS NOT NULL) "
+															+ "GROUP BY matricola_dip_coinv HAVING COUNT(matricola_dip_coinv)<=3) "
+															+ "GROUP BY matricola");
+					
+					System.out.println("Query #6 eseguita con successo");
+						
+					//da completare
+					
+					
+				} catch (Exception e) {
+					System.out.println("Errore nell'interrogazione della Query #6!");
+				}
+				
+				break;
 				
 			default:
 				break;
 			}
-			
-			
-			
-			
 			
 		}catch(Exception e){System.out.println("Connessione fallita!!!");}
 		
