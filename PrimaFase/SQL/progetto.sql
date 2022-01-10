@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `progetto` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `progetto`;
 -- MySQL dump 10.13  Distrib 8.0.27, for Win64 (x86_64)
 --
 -- Host: localhost    Database: progetto
@@ -42,6 +40,32 @@ LOCK TABLES `accessoria` WRITE;
 /*!40000 ALTER TABLE `accessoria` DISABLE KEYS */;
 INSERT INTO `accessoria` VALUES ('Cromo-light','professionale',0),('Facial Tip','professionale',1),('Lampada LED al collagene','professionale',1),('Manico Rullo Vacuum a infrarossi RF','professionale',0),('Manico Vacuum Facciale RF','professionale',0);
 /*!40000 ALTER TABLE `accessoria` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `affido`
+--
+
+DROP TABLE IF EXISTS `affido`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `affido` (
+  `seriale_macch_corr` int NOT NULL,
+  `cf_corr` varchar(45) NOT NULL DEFAULT 'non affidato',
+  PRIMARY KEY (`seriale_macch_corr`,`cf_corr`),
+  KEY `cf_corr_idx` (`cf_corr`),
+  CONSTRAINT `seriale_macch_corr` FOREIGN KEY (`seriale_macch_corr`) REFERENCES `macchinario` (`seriale`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `affido`
+--
+
+LOCK TABLES `affido` WRITE;
+/*!40000 ALTER TABLE `affido` DISABLE KEYS */;
+INSERT INTO `affido` VALUES (2,'AAAAAA00A01A000A'),(8,'AAAAAA00A01A000A'),(10,'AAAAAA00A01A000A'),(11,'AAAAAA00A01A000A'),(5,'AAAAAB00A01A000A'),(12,'AAAAAB00A01A000A'),(13,'AAAAAB00A01A000A'),(1,'non affidato'),(3,'non affidato'),(4,'non affidato'),(6,'non affidato'),(7,'non affidato'),(9,'non affidato');
+/*!40000 ALTER TABLE `affido` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -129,7 +153,7 @@ CREATE TABLE `cliente` (
 
 LOCK TABLES `cliente` WRITE;
 /*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
-INSERT INTO `cliente` VALUES ('Alex','Bove','BVOLXA00S19F839V',1,'3392671067','bove1900@gmail.com'),('Andrea','Aceto','CTANDR00E25H703O',3,'3342002177','a.aceto6@studenti.unisa.it'),('Rossella ','Ferrara','FRRRSL03C68A944Q',1,'3662231176','r.ferrara03@gmail.com'),('Francesca','Parente','PRNFNC03C71H703K',1,'3283888330','francescaparente03@gmail.com'),('Edoardo','Privato','PRVDRD00B33H703K',1,'3331698776','eddy.privato@libero.it'),('Michele','Rabesco','RBSMHL98R16A509S',2,'3338651333','m.rabesco@studenti.unisa.it');
+INSERT INTO `cliente` VALUES ('Alex','Bove','BVOLXA00S19F839V',2,'3392671067','bove1900@gmail.com'),('Andrea','Aceto','CTANDR00E25H703O',3,'3342002177','a.aceto6@studenti.unisa.it'),('Rossella ','Ferrara','FRRRSL03C68A944Q',4,'3662231176','r.ferrara03@gmail.com'),('Francesca','Parente','PRNFNC03C71H703K',2,'3283888330','francescaparente03@gmail.com'),('Edoardo','Privato','PRVDRD00B33H703K',1,'3331698776','eddy.privato@libero.it'),('Michele','Rabesco','RBSMHL98R16A509S',2,'3338651333','m.rabesco@studenti.unisa.it');
 /*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -148,11 +172,11 @@ CREATE TABLE `coinvolgimento` (
   `dataFine` date DEFAULT NULL,
   `ore` int DEFAULT NULL,
   PRIMARY KEY (`matricola_dip_coinv`,`num_intervento`,`seriale_macc_coinv`),
-  KEY `num_intervento_idx` (`num_intervento`),
   KEY `seriale_macc_coinv_idx` (`seriale_macc_coinv`),
   KEY `matricola_dip_coinv_idx` (`matricola_dip_coinv`),
-  CONSTRAINT `matricola_dip_coinv` FOREIGN KEY (`matricola_dip_coinv`) REFERENCES `dipendente` (`matricola`),
-  CONSTRAINT `num_intervento` FOREIGN KEY (`num_intervento`) REFERENCES `intervento` (`#progressivo`) ON DELETE CASCADE ON UPDATE CASCADE,
+  KEY `num_intervento_idx` (`num_intervento`),
+  CONSTRAINT `matricola_dip_coinv` FOREIGN KEY (`matricola_dip_coinv`) REFERENCES `dipendente` (`matricola`) ON UPDATE CASCADE,
+  CONSTRAINT `num_intervento` FOREIGN KEY (`num_intervento`) REFERENCES `intervento` (`progressivo`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `seriale_macc_coinv` FOREIGN KEY (`seriale_macc_coinv`) REFERENCES `macchinario` (`seriale`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `coinvolgimento_chk_1` CHECK ((`dataFine` >= `dataInizio`))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -164,7 +188,7 @@ CREATE TABLE `coinvolgimento` (
 
 LOCK TABLES `coinvolgimento` WRITE;
 /*!40000 ALTER TABLE `coinvolgimento` DISABLE KEYS */;
-INSERT INTO `coinvolgimento` VALUES ('0001',2,7,'2020-12-08','2020-12-10',16),('0002',1,3,'2020-12-08','2020-12-08',3),('0002',3,9,'2020-12-09',NULL,NULL),('0003',3,9,'2020-12-09',NULL,NULL),('0004',1,3,'2020-12-08','2020-12-08',3),('0004',2,7,'2020-12-08','2020-12-10',16),('0004',3,9,'2020-12-09',NULL,NULL),('1001',4,1,'2020-12-10',NULL,NULL);
+INSERT INTO `coinvolgimento` VALUES ('0001',2,7,'2020-12-08','2020-12-10',16),('0001',3,9,'2020-12-09',NULL,NULL),('0001',10,6,'2022-01-08',NULL,NULL),('0002',1,3,'2020-12-08','2020-12-08',3),('0002',3,9,'2020-12-09',NULL,NULL),('0003',1,9,'2020-12-09',NULL,NULL),('0003',2,9,'2020-12-09',NULL,NULL),('0003',3,9,'2020-12-09',NULL,NULL),('0004',1,3,'2020-12-08','2020-12-08',3),('0004',2,7,'2020-12-08','2020-12-10',16),('0004',3,9,'2020-12-09',NULL,NULL),('1001',4,1,'2020-12-10',NULL,NULL);
 /*!40000 ALTER TABLE `coinvolgimento` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -216,10 +240,8 @@ CREATE TABLE `dipendente` (
   `tipoContratto` varchar(45) NOT NULL,
   `alboProfessionale` varchar(45) DEFAULT NULL,
   `oreManutenzione` int DEFAULT NULL,
-  `disponibilità` tinyint(1) DEFAULT NULL,
   `specializzazione` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`matricola`),
-  CONSTRAINT `dipendente_chk_1` CHECK (((`disponibilità` >= 0) and (`disponibilità` <= 1))),
   CONSTRAINT `dipendente_chk_2` CHECK (regexp_like(`matricola`,_utf8mb4'[0-9]{4}'))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -230,7 +252,7 @@ CREATE TABLE `dipendente` (
 
 LOCK TABLES `dipendente` WRITE;
 /*!40000 ALTER TABLE `dipendente` DISABLE KEYS */;
-INSERT INTO `dipendente` VALUES ('0001','determinato',NULL,16,1,NULL),('0002','indeterminato',NULL,3,1,NULL),('0003','part-time',NULL,0,1,NULL),('0004','indeterminato',NULL,19,1,NULL),('1001','indeterminato','Ordine Ingegneri Provincia Napoli',NULL,NULL,'Meccanica');
+INSERT INTO `dipendente` VALUES ('0001','determinato',NULL,16,NULL),('0002','indeterminato',NULL,3,NULL),('0003','part-time',NULL,0,NULL),('0004','indeterminato',NULL,19,NULL),('1001','indeterminato','Ordine Ingegneri Provincia Napoli',NULL,'Meccanica'),('1002','indeterminato','Ordine Ingegneri Provincia Napoli',NULL,'Elettronica');
 /*!40000 ALTER TABLE `dipendente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -242,17 +264,17 @@ DROP TABLE IF EXISTS `intervento`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `intervento` (
-  `#progressivo` int NOT NULL AUTO_INCREMENT,
+  `progressivo` int NOT NULL AUTO_INCREMENT,
   `seriale_macchinario` int NOT NULL,
   `sostituzione` tinyint(1) NOT NULL DEFAULT '0',
   `stato` varchar(45) DEFAULT NULL,
   `dataArrivo` date NOT NULL,
   `dataFine` date DEFAULT NULL,
-  PRIMARY KEY (`#progressivo`),
+  PRIMARY KEY (`progressivo`),
   KEY `seriale_macchinario_idx` (`seriale_macchinario`),
   CONSTRAINT `seriale_macchinario` FOREIGN KEY (`seriale_macchinario`) REFERENCES `macchinario` (`seriale`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `intervento_chk_1` CHECK ((`dataFine` >= `dataArrivo`))
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -261,7 +283,7 @@ CREATE TABLE `intervento` (
 
 LOCK TABLES `intervento` WRITE;
 /*!40000 ALTER TABLE `intervento` DISABLE KEYS */;
-INSERT INTO `intervento` VALUES (1,3,0,'completato','2020-12-08','2020-12-08'),(2,7,0,'completato','2020-12-08','2020-12-10'),(3,9,0,'in lavorazione','2020-12-09',NULL),(4,1,1,'valutato','2020-12-10',NULL);
+INSERT INTO `intervento` VALUES (1,3,0,'Ccompletato','2020-12-08','2020-12-08'),(2,7,0,'Completato','2020-12-08','2020-12-10'),(3,9,0,'In lavorazione','2020-12-09',NULL),(4,1,1,'Valutato','2020-12-10',NULL),(5,4,0,'Completato','2020-12-10','2022-01-11'),(10,6,0,'Richiesto','2022-01-08',NULL);
 /*!40000 ALTER TABLE `intervento` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -283,14 +305,11 @@ CREATE TABLE `macchinario` (
   `cf_cliente` varchar(45) DEFAULT NULL,
   `isBase` varchar(45) DEFAULT NULL,
   `isAccessoria` varchar(45) DEFAULT NULL,
-  `cf_corriere_sped` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`seriale`),
   KEY `cf_cliente_idx` (`cf_cliente`),
   KEY `isBase_idx` (`isBase`),
   KEY `isAccessoria_idx` (`isAccessoria`),
-  KEY `cf_corriere_idx` (`cf_corriere_sped`),
-  CONSTRAINT `cf_cliente` FOREIGN KEY (`cf_cliente`) REFERENCES `cliente` (`cf`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `cf_corriere_sped` FOREIGN KEY (`cf_corriere_sped`) REFERENCES `corriere` (`cf`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `cf_cliente` FOREIGN KEY (`cf_cliente`) REFERENCES `cliente` (`cf`),
   CONSTRAINT `isAccessoria` FOREIGN KEY (`isAccessoria`) REFERENCES `accessoria` (`nomeCat`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `isBase` FOREIGN KEY (`isBase`) REFERENCES `base` (`nomeCat`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `macchinario_chk_1` CHECK (((`valutazione` >= 1) and (`valutazione` <= 100)))
@@ -303,7 +322,7 @@ CREATE TABLE `macchinario` (
 
 LOCK TABLES `macchinario` WRITE;
 /*!40000 ALTER TABLE `macchinario` DISABLE KEYS */;
-INSERT INTO `macchinario` VALUES (1,1280,2,101221,100,'guasto batteria','Combina 5 diverse tecnologie','CTANDR00E25H703O','V-Shape',NULL,'AAAAAA00A01A000A'),(2,265,NULL,101221,100,'nessuna','Usato per la rimozione della cellulite','CTANDR00E25H703O',NULL,'Manico Rullo Vacuum a infrarossi RF','AAAAAA00A01A000A'),(3,200,NULL,101221,100,'malfunzionamento','Trattamento occhiaie, rimozione rughe','CTANDR00E25H703O',NULL,'Manico Vacuum Facciale RF','AAAAAA00A01A000A'),(4,899.98,1,101221,100,'nessuna','Effettua decomposizione fototermica selettiva','RBSMHL98R16A509S','Laser Diodo Portatile',NULL,'AAAAAB00A01A000A'),(5,39.99,NULL,101221,100,'nessuna','Per aree difficili da raggiungere','RBSMHL98R16A509S',NULL,'Facial Tip','AAAAAB00A01A000A'),(6,1799,0,101221,100,'nessuna','Riduce grasso localizzato','FRRRSL03C68A944Q','EM-shape',NULL,NULL),(7,2459,2,101221,100,'malfunzionamento','Agisce su inestetismi cutanei',NULL,'Be active Spa',NULL,NULL),(8,120,NULL,101221,100,'nessuna','Migliora il metabolismo','PRNFNC03C71H703K',NULL,'Cromo-light',NULL),(9,99.98,NULL,101221,100,'rottura','Per trattamenti Anti-Age','PRVDRD00B33H703K',NULL,'Lampada LED al collagene',NULL),(10,265,NULL,101221,100,'nessuna','Usato per la rimozione della cellulite','BVOLXA00S19F839V',NULL,'Manico Rullo Vacuum a infrarossi RF',NULL);
+INSERT INTO `macchinario` VALUES (1,1280,2,101221,90,'guasto batteria','Combina 5 diverse tecnologie','CTANDR00E25H703O','V-Shape',NULL),(2,265,NULL,101221,100,'nessuna','Usato per la rimozione della cellulite','CTANDR00E25H703O',NULL,'Manico Rullo Vacuum a infrarossi RF'),(3,200,NULL,101221,100,'malfunzionamento','Trattamento occhiaie, rimozione rughe','CTANDR00E25H703O',NULL,'Manico Vacuum Facciale RF'),(4,899.98,1,101221,85,'bruciatura resistenza','Effettua decomposizione fototermica selettiva','RBSMHL98R16A509S','Laser Diodo Portatile',NULL),(5,39.99,NULL,101221,100,'nessuna','Per aree difficili da raggiungere','RBSMHL98R16A509S',NULL,'Facial Tip'),(6,1799,0,101221,80,'malfunzionamento','Riduce grasso localizzato','FRRRSL03C68A944Q','EM-shape',NULL),(7,2459,2,101221,80,'malfunzionamento','Agisce su inestetismi cutanei','FRRRSL03C68A944Q','Be active Spa',NULL),(8,120,NULL,101221,100,'nessuna','Migliora il metabolismo','PRNFNC03C71H703K',NULL,'Cromo-light'),(9,99.98,NULL,101221,60,'rottura','Per trattamenti Anti-Age','PRVDRD00B33H703K',NULL,'Lampada LED al collagene'),(10,265,NULL,101221,100,'nessuna','Usato per la rimozione della cellulite','BVOLXA00S19F839V',NULL,'Manico Rullo Vacuum a infrarossi RF'),(11,1280,2,50122,100,'nessuna','Combina 5 diverse tecnologie','PRNFNC03C71H703K','V-Shape',NULL),(12,265,NULL,50122,100,'nessuna','Usato per la rimozione della cellulite','FRRRSL03C68A944Q',NULL,'Manico Rullo Vacuum a infrarossi RF'),(13,2459,2,50122,100,'nessuna','Agisce su inestetismi cutanei','FRRRSL03C68A944Q','Be active Spa',NULL),(14,39.99,NULL,101221,100,'nessuna','Per aree difficili da raggiungere','BVOLXA00S19F839V',NULL,'Facial Tip');
 /*!40000 ALTER TABLE `macchinario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -320,7 +339,7 @@ CREATE TABLE `partecipazione` (
   PRIMARY KEY (`id_prog`,`matricola_dip_part`),
   KEY `matricola_dip_part_idx` (`matricola_dip_part`),
   CONSTRAINT `id_prog` FOREIGN KEY (`id_prog`) REFERENCES `progetto` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `matricola_dip_part` FOREIGN KEY (`matricola_dip_part`) REFERENCES `dipendente` (`matricola`)
+  CONSTRAINT `matricola_dip_part` FOREIGN KEY (`matricola_dip_part`) REFERENCES `dipendente` (`matricola`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -357,7 +376,7 @@ CREATE TABLE `progetto` (
 
 LOCK TABLES `progetto` WRITE;
 /*!40000 ALTER TABLE `progetto` DISABLE KEYS */;
-INSERT INTO `progetto` VALUES (1,'commercializzato',1),(2,'commercializzato',2),(3,'commercializzato',3),(4,'commercializzato',4),(5,'commercializzato',5),(6,'commercializzato',6),(7,'prototipale',7),(8,'commercializzato',8),(9,'commercializzato',9),(10,'collaudato',10);
+INSERT INTO `progetto` VALUES (1,'commercializzato',1),(2,'commercializzato',2),(3,'commercializzato',3),(4,'commercializzato',4),(5,'commercializzato',5),(6,'commercializzato',6),(7,'prototipale',7),(8,'commercializzato',8),(9,'commercializzato',9),(10,'collaudato',10),(11,'commercializzato',11),(12,'commercializzato',12),(13,'commercializzato',13),(14,'commercializzato',14);
 /*!40000 ALTER TABLE `progetto` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -378,7 +397,7 @@ CREATE TABLE `schedadipendente` (
   PRIMARY KEY (`matricola_dip`),
   UNIQUE KEY `email_UNIQUE` (`email`),
   UNIQUE KEY `telefono_UNIQUE` (`telefono`),
-  CONSTRAINT `matricola_dip` FOREIGN KEY (`matricola_dip`) REFERENCES `dipendente` (`matricola`),
+  CONSTRAINT `matricola_dip` FOREIGN KEY (`matricola_dip`) REFERENCES `dipendente` (`matricola`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `schedadipendente_chk_1` CHECK (regexp_like(`cf`,_utf8mb4'[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]')),
   CONSTRAINT `schedadipendente_chk_2` CHECK (regexp_like(`telefono`,_utf8mb4'[0-9]{10}')),
   CONSTRAINT `schedadipendente_chk_3` CHECK ((`email` like _utf8mb4'%_@_%._%'))
@@ -391,7 +410,7 @@ CREATE TABLE `schedadipendente` (
 
 LOCK TABLES `schedadipendente` WRITE;
 /*!40000 ALTER TABLE `schedadipendente` DISABLE KEYS */;
-INSERT INTO `schedadipendente` VALUES ('AAAAAA00A01A000B','Giuseppe','Raiola','g.raiola@gmail.com','1000000000','0001'),('AAAAAA00A01A000C','Maria','Ferrari','m.ferrari@gmail.com','2000000000','0002'),('AAAAAA00A01A000D','Marco','Bianchi','m.bianchi@gmail.com','3000000000','0003'),('AAAAAA00A01A000E','Andrea','Romano','a.romano@gmail.com','4000000000','0004'),('AAAAAA00A01A000F','Mario','Citarella','m.citarella@gmail.com','5000000000','1001');
+INSERT INTO `schedadipendente` VALUES ('AAAAAA00A01A000B','Giuseppe','Raiola','g.raiola@gmail.com','1000000000','0001'),('AAAAAA00A01A000C','Maria','Ferrari','m.ferrari@gmail.com','2000000000','0002'),('AAAAAA00A01A000D','Marco','Bianchi','m.bianchi@gmail.com','3000000000','0003'),('AAAAAA00A01A000E','Andrea','Romano','a.romano@gmail.com','4000000000','0004'),('AAAAAA00A01A000F','Mario','Citarella','m.citarella@gmail.com','5000000000','1001'),('AAAAAA00A01A000G','Paolo','Caruso','p.caruso@gmail.com','6000000000','1002');
 /*!40000 ALTER TABLE `schedadipendente` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -404,4 +423,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-11 17:52:54
+-- Dump completed on 2022-01-09 19:10:57

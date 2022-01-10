@@ -33,6 +33,22 @@ CREATE TABLE `accessoria` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `affido`
+--
+
+DROP TABLE IF EXISTS `affido`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `affido` (
+  `seriale_macch_corr` int NOT NULL,
+  `cf_corr` varchar(45) NOT NULL DEFAULT 'non affidato',
+  PRIMARY KEY (`seriale_macch_corr`,`cf_corr`),
+  KEY `cf_corr_idx` (`cf_corr`),
+  CONSTRAINT `seriale_macch_corr` FOREIGN KEY (`seriale_macch_corr`) REFERENCES `macchinario` (`seriale`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `associazione`
 --
 
@@ -106,11 +122,11 @@ CREATE TABLE `coinvolgimento` (
   `dataFine` date DEFAULT NULL,
   `ore` int DEFAULT NULL,
   PRIMARY KEY (`matricola_dip_coinv`,`num_intervento`,`seriale_macc_coinv`),
-  KEY `num_intervento_idx` (`num_intervento`),
   KEY `seriale_macc_coinv_idx` (`seriale_macc_coinv`),
   KEY `matricola_dip_coinv_idx` (`matricola_dip_coinv`),
-  CONSTRAINT `matricola_dip_coinv` FOREIGN KEY (`matricola_dip_coinv`) REFERENCES `dipendente` (`matricola`),
-  CONSTRAINT `num_intervento` FOREIGN KEY (`num_intervento`) REFERENCES `intervento` (`#progressivo`) ON DELETE CASCADE ON UPDATE CASCADE,
+  KEY `num_intervento_idx` (`num_intervento`),
+  CONSTRAINT `matricola_dip_coinv` FOREIGN KEY (`matricola_dip_coinv`) REFERENCES `dipendente` (`matricola`) ON UPDATE CASCADE,
+  CONSTRAINT `num_intervento` FOREIGN KEY (`num_intervento`) REFERENCES `intervento` (`progressivo`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `seriale_macc_coinv` FOREIGN KEY (`seriale_macc_coinv`) REFERENCES `macchinario` (`seriale`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `coinvolgimento_chk_1` CHECK ((`dataFine` >= `dataInizio`))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -154,10 +170,8 @@ CREATE TABLE `dipendente` (
   `tipoContratto` varchar(45) NOT NULL,
   `alboProfessionale` varchar(45) DEFAULT NULL,
   `oreManutenzione` int DEFAULT NULL,
-  `disponibilità` tinyint(1) DEFAULT NULL,
   `specializzazione` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`matricola`),
-  CONSTRAINT `dipendente_chk_1` CHECK (((`disponibilità` >= 0) and (`disponibilità` <= 1))),
   CONSTRAINT `dipendente_chk_2` CHECK (regexp_like(`matricola`,_utf8mb4'[0-9]{4}'))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -170,17 +184,17 @@ DROP TABLE IF EXISTS `intervento`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `intervento` (
-  `#progressivo` int NOT NULL AUTO_INCREMENT,
+  `progressivo` int NOT NULL AUTO_INCREMENT,
   `seriale_macchinario` int NOT NULL,
   `sostituzione` tinyint(1) NOT NULL DEFAULT '0',
   `stato` varchar(45) DEFAULT NULL,
   `dataArrivo` date NOT NULL,
   `dataFine` date DEFAULT NULL,
-  PRIMARY KEY (`#progressivo`),
+  PRIMARY KEY (`progressivo`),
   KEY `seriale_macchinario_idx` (`seriale_macchinario`),
   CONSTRAINT `seriale_macchinario` FOREIGN KEY (`seriale_macchinario`) REFERENCES `macchinario` (`seriale`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `intervento_chk_1` CHECK ((`dataFine` >= `dataArrivo`))
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -201,14 +215,11 @@ CREATE TABLE `macchinario` (
   `cf_cliente` varchar(45) DEFAULT NULL,
   `isBase` varchar(45) DEFAULT NULL,
   `isAccessoria` varchar(45) DEFAULT NULL,
-  `cf_corriere_sped` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`seriale`),
   KEY `cf_cliente_idx` (`cf_cliente`),
   KEY `isBase_idx` (`isBase`),
   KEY `isAccessoria_idx` (`isAccessoria`),
-  KEY `cf_corriere_idx` (`cf_corriere_sped`),
-  CONSTRAINT `cf_cliente` FOREIGN KEY (`cf_cliente`) REFERENCES `cliente` (`cf`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `cf_corriere_sped` FOREIGN KEY (`cf_corriere_sped`) REFERENCES `corriere` (`cf`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `cf_cliente` FOREIGN KEY (`cf_cliente`) REFERENCES `cliente` (`cf`),
   CONSTRAINT `isAccessoria` FOREIGN KEY (`isAccessoria`) REFERENCES `accessoria` (`nomeCat`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `isBase` FOREIGN KEY (`isBase`) REFERENCES `base` (`nomeCat`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `macchinario_chk_1` CHECK (((`valutazione` >= 1) and (`valutazione` <= 100)))
@@ -228,7 +239,7 @@ CREATE TABLE `partecipazione` (
   PRIMARY KEY (`id_prog`,`matricola_dip_part`),
   KEY `matricola_dip_part_idx` (`matricola_dip_part`),
   CONSTRAINT `id_prog` FOREIGN KEY (`id_prog`) REFERENCES `progetto` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `matricola_dip_part` FOREIGN KEY (`matricola_dip_part`) REFERENCES `dipendente` (`matricola`)
+  CONSTRAINT `matricola_dip_part` FOREIGN KEY (`matricola_dip_part`) REFERENCES `dipendente` (`matricola`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -266,7 +277,7 @@ CREATE TABLE `schedadipendente` (
   PRIMARY KEY (`matricola_dip`),
   UNIQUE KEY `email_UNIQUE` (`email`),
   UNIQUE KEY `telefono_UNIQUE` (`telefono`),
-  CONSTRAINT `matricola_dip` FOREIGN KEY (`matricola_dip`) REFERENCES `dipendente` (`matricola`),
+  CONSTRAINT `matricola_dip` FOREIGN KEY (`matricola_dip`) REFERENCES `dipendente` (`matricola`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `schedadipendente_chk_1` CHECK (regexp_like(`cf`,_utf8mb4'[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]')),
   CONSTRAINT `schedadipendente_chk_2` CHECK (regexp_like(`telefono`,_utf8mb4'[0-9]{10}')),
   CONSTRAINT `schedadipendente_chk_3` CHECK ((`email` like _utf8mb4'%_@_%._%'))
@@ -282,4 +293,4 @@ CREATE TABLE `schedadipendente` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-10 16:01:04
+-- Dump completed on 2022-01-09 19:08:17
